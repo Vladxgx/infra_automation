@@ -49,6 +49,11 @@ def get_raw_input():
 
 def create_machine_from_input():
     raw_data = get_raw_input()
+    
+    if raw_data is None:
+        print("Bye :(")
+        return None
+    
     try:
         config = MachineConfig(**raw_data)
     except ValidationError as e:
