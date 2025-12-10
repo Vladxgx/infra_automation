@@ -7,18 +7,44 @@ from pydantic import ValidationError
 CONFIG_PATH = Path("configs/machines.json")
 
 def get_raw_input():
+    print("Starting machine creation.")
+    print("Type 'cancel' at any time to abort.\n")
+
     name = input("Enter machine name: ").strip()
-    os = input("enter OS: ").strip().lower()
-    cpu = input("enter CPU cores: ").strip()
-    ram = input("enter RAM (GB): ").strip()
-    storage = input("enter Storage (GB): ").strip()
+    if name.lower() == "cancel":
+        return None
+
+    os = input("Enter OS: ").strip().lower()
+    if os.lower() == "cancel":
+        return None
+
+    cpu = input("Enter CPU cores: ").strip()
+    if cpu.lower() == "cancel":
+        return None
+
+    ram = input("Enter RAM (GB): ").strip()
+    if ram.lower() == "cancel":
+        return None
+
+    storage = input("Enter Storage (GB): ").strip()
+    if storage.lower() == "cancel":
+        return None
+
     return {
         "name": name,
         "os": os,
         "cpu": cpu,
         "ram": ram,
         "storage": storage,
-    }  
+    }
+
+    return {
+        "name": name,
+        "os": os,
+        "cpu": cpu,
+        "ram": ram,
+        "storage": storage,
+    }
 
 
 def create_machine_from_input():
