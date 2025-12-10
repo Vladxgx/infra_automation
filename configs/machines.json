@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Ray",
+    "os": "windows",
+    "cpu": 8,
+    "ram": 32
+  },
+  {
+    "name": "Silver",
+    "os": "linux",
+    "cpu": 10,
+    "ram": 64
+  }
+]
