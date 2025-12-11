@@ -18,8 +18,8 @@ if not logger.handlers:
     logger.addHandler(file_handler)
 
 #provisioning bash/nginx logger
-proviosioning_logger = logging.getLogger("provisioning")
-proviosioning_logger.setLevel(logging.INFO)
+provisioning_logger = logging.getLogger("provisioning")
+provisioning_logger.setLevel(logging.INFO)
 
 if not proviosioning_logger.handlers:
     prov_handler = logging.FileHandler(PROV_LOG_PATH)
