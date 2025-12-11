@@ -5,7 +5,7 @@ from src.validation import MachineConfig
 from pydantic import ValidationError
 from src.logger import logger
 
-CONFIG_PATH = Path("configs/machines.json")
+CONFIG_PATH = Path("configs/instances.json")
 
 def get_raw_input():
     print("Starting machine creation.")
@@ -50,9 +50,11 @@ def create_machine_from_input():
     try:
         config = MachineConfig(**raw_data)
     except ValidationError as e:
-        logger.error(f"Validation error: {msg}") 
         print("\nInput is invalid:")
+        logger.error("Validation error while creating MachineConfig")
         for err in e.errors():
+            msg = err.get("msg", "Unknown validation error")
+            logger.error(f"  {msg}")
             print(f" - {msg}")
         return None
     
@@ -72,10 +74,10 @@ def create_machine_from_input():
     print(f"  RAM: {info['ram']} GB")
     return machine
 
-def load_machines():
-    """Load existing machines from JSON and return a list."""
+def load_instances():
     if not CONFIG_PATH.exists():
         return []
+    
     try:
         with CONFIG_PATH.open("r") as f:
             data = json.load(f)
@@ -88,7 +90,7 @@ def load_machines():
     
     return data
 
-def save_machines(machines: list[dict]):
+def save_instances(machines: list[dict]):
     with CONFIG_PATH.open("w") as f:
         json.dump(machines, f, indent=2)
     
@@ -97,11 +99,12 @@ def main():
     if machine is None:
         return
     
-    machines = load_machines()
-    machines.append(machine.to_dict())
-    save_machines(machines)
-    print(f"Saved {len(machines)} machines to {CONFIG_PATH}")
+    instances = load_instances()
+    instances.append(machine.to_dict())
+    save_instances(instances)
+    print(f"Saved {len(instances)} instances to {CONFIG_PATH}")
 
 if __name__ == "__main__":
-    main()
     logger.info("App started.")
+    main()
+    

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Ray",
+    "os": "windows",
+    "cpu": 8,
+    "ram": 32
+  },
+  {
+    "name": "Silver",
+    "os": "linux",
+    "cpu": 10,
+    "ram": 64
+  },
+  {
+    "name": "lol",
+    "os": "linux",
+    "cpu": 8,
+    "ram": 32
+  },
+  {
+    "name": "ok",
+    "os": "linux",
+    "cpu": 6,
+    "ram": 5
+  },
+  {
+    "name": "alsook",
+    "os": "macos",
+    "cpu": 5,
+    "ram": 6
+  }
+]
