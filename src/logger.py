@@ -4,8 +4,8 @@ from pathlib import Path
 LOG_DIR = path("logs")
 LOG_DIR.mkdir(exist_ok=True)
 
-LOG_PATH = Path("logs/app.log")
-LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+APP_LOG_PATH = LOG_DIR / "app.log"
+PROV_LOG_PATH = LOG_DIR / "provisioning.log"
 
 #main logger
 logger = logging.getLogger("infra_simulator")
