@@ -3,6 +3,7 @@ from pathlib import Path
 from src.machine import Machine
 from src.validation import MachineConfig
 from pydantic import ValidationError
+from src.logger import logger
 
 CONFIG_PATH = Path("configs/machines.json")
 
@@ -39,18 +40,20 @@ def get_raw_input():
     }
 
 def create_machine_from_input():
+    logger.info("Creating machine from user input.")
     raw_data = get_raw_input()
-    
     if raw_data is None:
+        logger.info("Machine creation cancelled by user.")
         print("Bye :(")
         return None
     
     try:
         config = MachineConfig(**raw_data)
     except ValidationError as e:
+        logger.error(f"Validation error: {msg}") 
         print("\nInput is invalid:")
         for err in e.errors():
-            print(f" - {err['msg']}")
+            print(f" - {msg}")
         return None
     
     machine = Machine(
@@ -101,3 +104,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    logger.info("App started.")
