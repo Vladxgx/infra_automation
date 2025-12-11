@@ -38,15 +38,6 @@ def get_raw_input():
         "storage": storage,
     }
 
-    return {
-        "name": name,
-        "os": os,
-        "cpu": cpu,
-        "ram": ram,
-        "storage": storage,
-    }
-
-
 def create_machine_from_input():
     raw_data = get_raw_input()
     
@@ -57,22 +48,25 @@ def create_machine_from_input():
     try:
         config = MachineConfig(**raw_data)
     except ValidationError as e:
-        print("Input is invalid:", e)
+        print("\nInput is invalid:")
+        for err in e.errors():
+            print(f" - {err['msg']}")
         return None
     
     machine = Machine(
-        name=config.name,
-        os=config.os,
-        cpu=config.cpu,
-        ram=config.ram,
+        name = config.name,
+        os = config.os,
+        cpu = config.cpu,
+        ram = config.ram,
         # storage=config.storage - add later
         )
+    
     info = machine.to_dict()
     print("Machine created:")
     print(f"  Name: {info['name']}")
     print(f"  OS: {info['os']}")
-    print(f"  CPU: {info['cpu']}")
-    print(f"  RAM: {info['ram']}")
+    print(f"  CPU: {info['cpu']} Cores")
+    print(f"  RAM: {info['ram']} GB")
     return machine
 
 def load_machines():
