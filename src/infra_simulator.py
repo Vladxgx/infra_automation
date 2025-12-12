@@ -6,9 +6,11 @@ from src.validation import MachineConfig
 from pydantic import ValidationError
 from src.logger import logger, provisioning_logger
 
+#define paths
 CONFIG_PATH = Path("configs/instances.json")
 SCRIPT_PATH = Path("scripts/setup_nginx.sh")
 
+#get input from user
 def get_raw_input():
     print("Starting machine creation.")
     print("Type 'cancel' at any time to abort.\n")
@@ -50,13 +52,13 @@ def create_machine_from_input():
         return None
     
     try:
-        config = MachineConfig(**raw_data)
+        config = MachineConfig(**raw_data) #use the raw data to fill out machine detes
     except ValidationError as e:
         print("\nInput is invalid:")
         logger.error("Validation error while creating MachineConfig")
         for err in e.errors():
-            msg = err.get("msg", "Unknown validation error")
-            logger.error(f"  {msg}")
+            msg = err in e.errors():
+            logger.error(msg)
             print(f" - {msg}")
         return None
     
@@ -85,13 +87,7 @@ def load_instances():
         with CONFIG_PATH.open("r") as f:
             data = json.load(f)
     except json.JSONDecodeError:
-        print("Error: Could not decode JSON from the config file.")
         return []
-    if not isinstance(data, list):
-        print("Error: Config file format is invalid.")
-        return []
-    
-    return data
 
 def save_instances(machines: list[dict]):
     with CONFIG_PATH.open("w") as f:
@@ -116,6 +112,7 @@ def run_nginx_setup():
     if result.stderr:
         provisioning_logger.error(result.stderr)
     if result.returncode != 0:
+        provisioning_logger.error("Nginx setup script failed.")
         print("Nginx setup script failed. Check logs for details.")
         return
     
