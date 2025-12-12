@@ -1,11 +1,13 @@
 import json
+import subprocess
 from pathlib import Path
 from src.machine import Machine
 from src.validation import MachineConfig
 from pydantic import ValidationError
-from src.logger import logger
+from src.logger import logger, provisioning_logger
 
 CONFIG_PATH = Path("configs/instances.json")
+SCRIPT_PATH = Path("scripts/setup_nginx.sh")
 
 def get_raw_input():
     print("Starting machine creation.")
@@ -93,7 +95,33 @@ def load_instances():
 def save_instances(machines: list[dict]):
     with CONFIG_PATH.open("w") as f:
         json.dump(machines, f, indent=2)
+
+def run_nginx_setup():
+    provisioning_logger.info("Running Nginx setup script.")
+
+    try:
+        result = subprocess.run(
+            ["bash", "scripts/setup_nginx.sh"],
+            text=True,
+            capture_output=True,
+        )
+    except Exception as e:
+        provisioning_logger.error(f"Failed to run Nginx setup script: {e}")
+        print("Could not run Nginx setup script. See provisioning.log for details.")
+        return
     
+    if result.stdout:
+        provisioning_logger.info(result.stdout)
+    if result.stderr:
+        provisioning_logger.error(result.stderr)
+    if result.returncode != 0:
+        print("Nginx setup script failed. Check logs for details.")
+        return
+    
+    provisioning_logger.info("Nginx setup script completed successfully.")
+    print("Nginx setup completed successfully.")
+
+
 def main():
     machine = create_machine_from_input()
     if machine is None:
@@ -103,6 +131,10 @@ def main():
     instances.append(machine.to_dict())
     save_instances(instances)
     print(f"Saved {len(instances)} instances to {CONFIG_PATH}")
+
+#looks like it will work only on linux but will log errors on other OS
+    run_nginx_setup() 
+#add a log catcher to determine why it fails ie "its not linux"
 
 if __name__ == "__main__":
     logger.info("App started.")
