@@ -1,28 +1,24 @@
 import logging
 from pathlib import Path
 
-LOG_DIR = path("logs")
-LOG_DIR.mkdir(exist_ok=True)
+# Make sure logs/ folder exists
+Path("logs").mkdir(exist_ok=True)
 
-APP_LOG_PATH = LOG_DIR / "app.log"
-PROV_LOG_PATH = LOG_DIR / "provisioning.log"
-
-#main logger
-logger = logging.getLogger("infra_simulator")
+# main app logger
+logger = logging.getLogger("app")
 logger.setLevel(logging.INFO)
 
-if not logger.handlers:
-    file_handler = logging.FileHandler(LOG_PATH)
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(formatter)
-    logger.addHandler(file_handler)
+app_handler = logging.FileHandler("logs/app.log")
+app_format = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+app_handler.setFormatter(app_format)
 
-#provisioning bash/nginx logger
+logger.addHandler(app_handler)
+
+# provisioning logger
 provisioning_logger = logging.getLogger("provisioning")
 provisioning_logger.setLevel(logging.INFO)
 
-if not proviosioning_logger.handlers:
-    prov_handler = logging.FileHandler(PROV_LOG_PATH)
-    prov_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    prov_handler.setFormatter(prov_formatter)
-    proviosioning_logger.addHandler(prov_handler)
+prov_handler = logging.FileHandler("logs/provisioning.log")
+prov_handler.setFormatter(app_format)  # reuse same format
+
+provisioning_logger.addHandler(prov_handler)
