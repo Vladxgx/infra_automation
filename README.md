@@ -1,8 +1,3 @@
-# infra_automation
-
-A small Python project for creating simple “machine” configurations and running a provisioning script.  
-This is part of the Rolling Project in the DevOps course.
-
 The app lets you:
 
 - enter machine details (name, OS, CPU, RAM, storage)
@@ -18,7 +13,7 @@ Everything is logged into the `logs/` folder.
 
 Clone the repo:
 
-git clone <your-repo-url>
+git clone https://github.com/Vladxgx/infra_automation)
 cd infra_automation
 
 Create and activate a virtual environment:
@@ -93,6 +88,5 @@ logs/
 ------------------------------------
 
 ## Notes
-
 - The provisioning script uses apt, so it only works on Linux.
-- Running it on macOS or Windows will fail, which is expected.
+
