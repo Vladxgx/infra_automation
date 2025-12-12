@@ -43,7 +43,7 @@ python -m src.infra_simulator
    - OS  
    - CPU cores  
    - RAM  
-   - storage  
+   - storage 
 
 2. The input is validated.  
    If anything is invalid, the app tells you.

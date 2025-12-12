@@ -1,9 +1,10 @@
 class Machine:
-    def __init__(self, name: str, os: str, cpu: int, ram: int):
+    def __init__(self, name: str, os: str, cpu: int, ram: int, storage: int):
         self.name = name
         self.os = os
         self.cpu = cpu
         self.ram = ram
+        self.storage = storage
 
     def to_dict(self):
         return {
@@ -11,4 +12,5 @@ class Machine:
             "os": self.os,
             "cpu": self.cpu,
             "ram": self.ram,
+            "storage": self.storage,
         }

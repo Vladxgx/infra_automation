@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
-set -e
 
-echo "Setting up Nginx..."
+sudo apt update
+sudo apt install -y nginx
 
-# Check if nginx is already installed by checking if the command exists
-if command -v nginx >/dev/null 2>&1; then
-    echo "Nginx is already installed."
-    exit 0
+# If the install failed, stop here
+if ! command -v nginx >/dev/null 2>&1; then
+    echo "Nginx installation failed."
+    exit 1
 fi
 
-echo "updating package lists..."
-sudo apt update
-
-echo "installing nginx..."
-sudo apt install -y nginx   
-
-echo "nginx installed successfully."
+echo "Nginx installed successfully."

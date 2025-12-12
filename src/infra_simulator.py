@@ -65,7 +65,7 @@ def create_machine_from_input():
         os = config.os,
         cpu = config.cpu,
         ram = config.ram,
-        # storage=config.storage - add later
+        storage= config.storage,
         )
     
     info = machine.to_dict()
@@ -74,6 +74,7 @@ def create_machine_from_input():
     print(f"  OS: {info['os']}")
     print(f"  CPU: {info['cpu']} Cores")
     print(f"  RAM: {info['ram']} GB")
+    print(f"  Storage: {info['storage']} GB")
     return machine
 
 def load_instances():
